@@ -2,19 +2,20 @@ import express,{Application,Request,Response} from 'express'
 const app:Application = express()
 const PORT:number = 3000
 
-require("./model/index")
+import * as dotenv from 'dotenv'
+dotenv.config()
 
-app.get("/",(req:Request,res:Response)=>{
-    res.send("Hello world")
-})
+import './database/connection'
 
-app.get("/about",(req:Request,res:Response)=>{
-    res.send("About Page")
-})
+import userRoute from './routes/userRoute'
+app.use(express.json())
 
-app.get("/conatct",(req:Request,res:Response)=>{
-    res.send("contact Page")
-})
+//localhost:3000/register
+app.use("/",userRoute)
+
+//for localhost:3000/hello/register
+// app.use("/hello",userRoute)
+
 
 app.listen(PORT,()=>{
     console.log("Server has started at port : ",PORT)
